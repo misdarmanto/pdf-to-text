@@ -1,10 +1,10 @@
-# pdf_routes.py
+
 
 from fastapi import APIRouter, File, UploadFile, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from app.controllers.pdf_converter import pdf_to_text
-import os
+from app.controllers.pdf_converter import extract_text_from_pdf
+import io
 
 router = APIRouter()
 templates = Jinja2Templates(directory="app/views")
@@ -15,9 +15,10 @@ async def upload_form(request: Request):
 
 @router.post("/upload/")
 async def upload_file(file: UploadFile = File(...)):
-    os.makedirs("uploads", exist_ok=True)
-    file_path = os.path.join("uploads", file.filename)
-    with open(file_path, "wb") as f:
-        f.write(file.file.read())
-    text = pdf_to_text(file_path)
-    return {"filename": file.filename, "text": text}
+    try:
+        content = await file.read()
+        pdf_file = io.BytesIO(content)
+        text = extract_text_from_pdf(pdf_file)
+        return {"text": text}
+    except Exception as e:
+        return {"error": str(e)}

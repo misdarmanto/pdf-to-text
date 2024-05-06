@@ -18,19 +18,19 @@ client = weaviate.Client(
 
 class_obj = {
     "class": "Question",
-    "vectorizer": "text2vec-openai",  # If set to "none" you must always provide vectors yourself. Could be any other "text2vec-*" also.
+    "vectorizer": "text2vec-openai",
     "moduleConfig": {
         "text2vec-openai": {},
-        "generative-openai": {}  # Ensure the `generative-openai` module is used for generative queries
+        "generative-openai": {} 
     }
 }
 
 client.schema.create_class(class_obj)
 
 def add_object():
-    client.batch.configure(batch_size=100)  # Configure batch
-    with client.batch as batch:  # Initialize a batch process
-        for i, d in enumerate(data):  # Batch import data
+    client.batch.configure(batch_size=100) 
+    with client.batch as batch: 
+        for i, d in enumerate(data):
             print(f"importing question: {i+1}")
             properties = {
                 "answer": d["Answer"],

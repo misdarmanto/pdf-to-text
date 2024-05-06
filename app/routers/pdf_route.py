@@ -1,11 +1,9 @@
-
-
 from fastapi import APIRouter, File, UploadFile, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from app.controllers.pdf_converter import extract_text_from_pdf
 import io
-from app.controllers.weviate_test import add_object
+# from app.controllers.weaviate_test import add_object
 
 router = APIRouter()
 templates = Jinja2Templates(directory="app/views")
@@ -24,7 +22,10 @@ async def upload_file(file: UploadFile = File(...)):
     except Exception as e:
         return {"error": str(e)}
 
-@router.post("/weviate/")
+@router.get("/weaviate/")
 async def add_data():
-    add_object()
-    return {"message": "success"}
+    try:
+        # add_object()
+        return {"message": "success"}
+    except Exception as e:
+        return {"error": str(e)}

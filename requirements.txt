@@ -1,3 +1,5 @@
 fastapi==0.68.0
 uvicorn==0.15.0
-PyPDF2==1.26.0
+PyPDF2==1.26.
+weaviate-client==3.*
+python-dotenv

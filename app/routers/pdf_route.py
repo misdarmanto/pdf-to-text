@@ -5,6 +5,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from app.controllers.pdf_converter import extract_text_from_pdf
 import io
+from app.configs import app_configs
 
 router = APIRouter()
 templates = Jinja2Templates(directory="app/views")
